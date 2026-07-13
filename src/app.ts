@@ -10,9 +10,34 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Enable CORS
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://sha-optical-frontend.vercel.app',
+  'http://localhost:3000'
+].filter(Boolean) as string[];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || '*',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+      
+      const isAllowed = allowedOrigins.some(allowed => {
+        if (allowed.includes('*')) return true;
+        return allowed.replace(/\/$/, '') === origin.replace(/\/$/, '');
+      });
+
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        // Fallback: allow dynamically matching vercel.app previews/branches if needed
+        if (origin.endsWith('.vercel.app')) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
+    },
     credentials: true,
   })
 );
