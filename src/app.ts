@@ -27,6 +27,11 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 // API Routes
 app.use('/api', routes);
 
+// Home route
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Sha Optical Backend API is running successfully' });
+});
+
 // Error Handling Middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('Unhandled error:', err);
