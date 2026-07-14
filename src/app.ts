@@ -63,13 +63,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   res.status(500).json({ message: err.message || 'Internal Server Error' });
 });
 
-// Start Server
-const startServer = async () => {
-  await connectDB();
-  app.listen(PORT, () => {
-    console.log(`Express server running on port ${PORT}`);
-  });
-};
+// Initialize DB connection immediately
+connectDB();
 
-startServer();
 export default app;
