@@ -66,4 +66,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 // Initialize DB connection immediately
 connectDB();
 
+// Only listen on port if running locally (not in serverless Vercel environment)
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Express server running on port ${PORT}`);
+  });
+}
+
 export default app;
