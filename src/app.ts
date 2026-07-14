@@ -49,6 +49,16 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static uploaded files (local fallback storage)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// Ensure DB is connected before every request (critical for Vercel serverless)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    res.status(500).json({ message: 'Database connection failed. Please try again.' });
+  }
+});
+
 // API Routes
 app.use('/api', routes);
 
