@@ -22,14 +22,14 @@ const seedDatabase = async () => {
 
     // 1. Create Default Admin
     console.log('Seeding Admin account...');
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const hashedPassword = await bcrypt.hash('veeramani@123', 10);
     const admin = new Admin({
-      username: 'admin',
+      username: 'shaoptical@gmail.com',
       password: hashedPassword,
       name: 'Store Owner',
     });
     await admin.save();
-    console.log('Admin account created (User: admin / Pass: admin123).');
+    console.log('Admin account created (User: shaoptical@gmail.com / Pass: veeramani@123).');
 
     // 2. Seed Master Data (Dropdown Values)
     console.log('Seeding Master Data dropdowns...');
